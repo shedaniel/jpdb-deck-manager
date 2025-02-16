@@ -306,13 +306,10 @@ export async function loadAllMediaDecksWithVocabState(token: string): Promise<De
     let startTime = Date.now();
     console.log(`[${Date.now() - startTime}] Starting`);
     const fetched = await fetchDecks(token);
-    const relevant_decks = fetched.filter(
-        (it) => it.word_count > it.vocab_count * 3,
-    );
 
     const vocabss: Vocab[][] = [];
     const v_decks = [];
-    for (const deck of relevant_decks) {
+    for (const deck of fetched) {
         let vd = await loadCachedDeck(deck);
         if (vd === null) {
             vd = await fetchDeckVocab(token, deck);
